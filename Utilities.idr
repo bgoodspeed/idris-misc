@@ -26,3 +26,7 @@ iterateN (S n) f x = x :: iterateN n f (f x)
 permutations : (Eq a) => List a -> List (List a)
 permutations [] = [[]] 
 permutations xs = [x::ys | x <- xs, ys <- permutations (delete x xs)] 
+
+mapM_ : Monad m => (a -> m b) -> List a -> m() 
+mapM_ f  = sequence_ . map f
+
