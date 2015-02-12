@@ -30,3 +30,18 @@ permutations xs = [x::ys | x <- xs, ys <- permutations (delete x xs)]
 mapM_ : Monad m => (a -> m b) -> List a -> m() 
 mapM_ f  = sequence_ . map f
 
+unsafeZip : List a -> List b -> List (a, b)
+unsafeZip [] bs = []
+unsafeZip as [] = []
+unsafeZip (a::as) (b::bs) = (a,b) :: unsafeZip as bs
+
+prefixesOf : String -> List String
+prefixesOf w with (unpack w)
+    | [] = []
+    | xs = let segs = inits xs in
+               map pack segs
+
+-- TODONOTE ported liftm2 from haskell
+liftM2 : (Monad m) => (a1 -> a2 -> r) -> m a1 -> m a2 -> m r
+liftM2 f m1 m2 = do { x1 <- m1 ; x2 <- m2; return (f x1 x2) }
+               
