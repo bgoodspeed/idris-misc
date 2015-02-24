@@ -57,7 +57,8 @@ uniqueElements (x :: xs) = if x `elem` xs then uniqueElements xs else x :: uniqu
 
 
 
--- TODONOTE ported liftm2 from haskell
+-- TODONOTE ported liftm2 from haskell (equivalent to liftA2)
+
 liftM2 : (Monad m) => (a1 -> a2 -> r) -> m a1 -> m a2 -> m r
 liftM2 f m1 m2 = do { x1 <- m1 ; x2 <- m2; return (f x1 x2) }
                
