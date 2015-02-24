@@ -41,6 +41,22 @@ prefixesOf w with (unpack w)
     | xs = let segs = inits xs in
                map pack segs
 
+powerList  : List a -> List (List a)
+powerList  [] = [[]]
+powerList  (x::xs) = (powerList xs) ++ (map (x::) (powerList xs))
+
+orderedSubsets : (Eq a) => List a -> List (List a)
+orderedSubsets [] = [] 
+orderedSubsets (x :: xs) = (inits (x :: xs)) ++ (orderedSubsets xs)
+
+-- Similar to nub
+
+uniqueElements : (Eq a) => List a -> List a
+uniqueElements [] = []
+uniqueElements (x :: xs) = if x `elem` xs then uniqueElements xs else x :: uniqueElements xs 
+
+
+
 -- TODONOTE ported liftm2 from haskell
 liftM2 : (Monad m) => (a1 -> a2 -> r) -> m a1 -> m a2 -> m r
 liftM2 f m1 m2 = do { x1 <- m1 ; x2 <- m2; return (f x1 x2) }
