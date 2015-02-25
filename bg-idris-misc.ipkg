@@ -1,0 +1,5 @@
+package bg_idris_misc
+
+modules = DecHelper, Homomorphism, LTE, ListDecisions, ListQuantifiers, Rational, Utilities
+
+

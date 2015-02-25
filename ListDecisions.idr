@@ -1,4 +1,3 @@
-
 module ListDecisions
 
 import Decidable.Equality
