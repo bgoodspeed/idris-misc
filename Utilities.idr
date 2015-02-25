@@ -14,14 +14,19 @@ unsafeInit : (l : List a) -> List a
 unsafeInit [x]        = []
 unsafeInit (x::y::ys) = x :: unsafeInit (y::ys) 
 
+iterateN : Nat -> (f : a -> a) -> (x : a) -> List a
+iterateN Z     f x = []  
+iterateN (S n) f x = x :: iterateN n f (f x)
+
 
 cyclicShift : List a -> List a
 cyclicShift [] = []  
 cyclicShift (x :: xs) = xs ++ [x] 
 
-iterateN : Nat -> (f : a -> a) -> (x : a) -> List a
-iterateN Z     f x = []  
-iterateN (S n) f x = x :: iterateN n f (f x)
+allCyclicShiftsOf : List a -> List (List a)
+allCyclicShiftsOf xs = iterateN (length xs) cyclicShift xs
+
+
 
 permutations : (Eq a) => List a -> List (List a)
 permutations [] = [[]] 
