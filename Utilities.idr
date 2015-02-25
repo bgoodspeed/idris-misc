@@ -19,6 +19,12 @@ iterateN Z     f x = []
 iterateN (S n) f x = x :: iterateN n f (f x)
 
 
+applyN : Nat -> (f : a -> a) -> a -> a
+applyN Z f x = x 
+applyN (S k) f x = applyN k f (f x)
+
+
+
 cyclicShift : List a -> List a
 cyclicShift [] = []  
 cyclicShift (x :: xs) = xs ++ [x] 
