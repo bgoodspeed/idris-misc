@@ -2,28 +2,20 @@ module Rational
 
 -- TODONOTE there is no rational class
 -- TODONOTE could use a type class, but whatever
-Rational : Type
-Rational = (Integer, Integer)
+
+data Rational : Type where
+  MkRational : Integer -> (d : Integer) -> ((d == 0) = False) -> Rational
 
 
 quotRem : Integer -> Integer -> (Integer, Integer)
 quotRem n d = (div n d, mod n d)
 
 numerator : Rational -> Integer
-numerator (n,d) = n
+numerator (MkRational x d prf) = x
+
 
 denominator : Rational -> Integer
-denominator (n,d) = d 
-
---TODONOTE we don't have % to construct a ratio (which also doesn't exist
---TODONOTE x < 0 error,  
-decExpand : Rational -> List Integer
-decExpand x = let n     = numerator x 
-                  d     = denominator x 
-                  (q,r) = quotRem n d
-                  r10   = r * 10
-                in
-              if r == 0 then [q] else q :: decExpand( quotRem r10 d) 
+denominator (MkRational x d prf) = d
 
 {- TODONOTE elemIndex is confused about (Int vs Integer), there's no cast tho?
 -}
@@ -46,12 +38,14 @@ decForm x = let
 
 
 recip : Rational -> Rational
-recip (n,d) = (d,n)
+recip (MkRational x d prf) = case x == 0 of
+                                  True => MkRational 0 1 Refl
+                                  False => MkRational d x ?pfInverse
 
 rationalMult : Rational -> Rational -> Rational
-rationalMult (x,y) (n,m) = (x*n, y*m)
+rationalMult (MkRational x d prf) (MkRational y z w) = MkRational (x*y) (d*z) ?pfMult 
 
 rationalAdd : Rational -> Rational -> Rational
-rationalAdd (x,y) (n,m) = (m*x + n*y, m*y)
+rationalAdd (MkRational x y p1) (MkRational n m p2) = MkRational (m*x + n*y) (m*y) ?pfAdd
                               
 
